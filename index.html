@@ -1,44 +1,184 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sim Racing Timesheet</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://console.firebase.google.com/project/naija-racersquad/database/naija-racersquad-default-rtdb/data/~2F?fb_gclid=Cj0KCQiA6NTJBhDEARIsAB7QHD0cXi0aPiYxULfbE-SITNh43DQi9a3smoP9tWnxblp2dxft-C_12E4aAv6dEALw_wcB"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Leaderboard — Home</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Sim Racing Leaderboard</h1>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">V8</div>
+        <div>
+          <div style="font-weight:700">FastLap</div>
+          <div class="small">Leaderboards & Events</div>
+        </div>
+      </div>
+      <nav>
+        <a class="small">Events</a>
+        <a class="small">Leaderboards</a>
+        <a class="small">How it works</a>
+        <a class="btn ghost">Log in</a>
+        <a class="btn primary">Create Account</a>
+      </nav>
+    </header>
 
-<!-- Optional admin login -->
-<div id="loginContainer">
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button id="loginBtn">Login as Admin</button>
-</div>
+    <main>
+      <section class="hero">
+        <div class="hero-card">
+          <div style="display:flex;align-items:center;gap:14px;justify-content:space-between">
+            <div>
+              <h1>Track your performance. Dominate the leaderboard.</h1>
+              <p>Join events, submit verified times, and compete with racers across multiple leaderboards. Simple, fast, and focused on what matters — your lap.</p>
+            </div>
+            <div class="pill">New • Open Events</div>
+          </div>
 
-<!-- Leaderboard & add form always visible -->
-<form id="timeForm">
-    <input type="text" id="driverName" placeholder="Driver Name" required>
-    <input type="text" id="lapTime" placeholder="Lap Time (MM:SS.mmm)" required>
-    <input type="text" id="teamName" placeholder="Team Name (optional)">
-    <button type="submit">Add Record</button>
-</form>
+          <div style="margin-top:18px;display:flex;gap:14px;align-items:center">
+            <div class="ctas">
+              <a href="#events" class="btn primary">View Events</a>
+              <a href="#" class="btn ghost">Submit a Time</a>
+            </div>
+          </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Position</th>
-            <th>Driver</th>
-            <th>Lap Time (MM:SS.mmm)</th>
-            <th>Team</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody id="leaderboard"></tbody>
-</table>
+          <div style="margin-top:18px;display:flex;gap:12px;align-items:center;color:var(--muted)">
+            <div class="stat"><strong>1,284</strong><span class="small">submissions</span></div>
+            <div class="stat"><strong>42</strong><span class="small">active events</span></div>
+            <div class="stat"><strong>912</strong><span class="small">racers</span></div>
+          </div>
+        </div>
 
+        <aside class="feature">
+          <h3>Featured Event</h3>
+          <div class="muted">Night Sprint • Dec 18, 2025</div>
+          <p style="margin:10px 0 12px;font-weight:600">J5 Prime Sprint — 3 laps, timed.</p>
+          <div style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+            <div class="meta">
+              <div class="badge">Open</div>
+              <div class="muted">Participants: 143</div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <a class="btn primary">View Timesheet</a>
+              <a class="btn ghost">Manage</a>
+            </div>
+          </div>
+        </aside>
+      </section>
 
-    <script src="script.js"></script>
+      <section id="events">
+        <h2 style="margin:0 0 12px">Active Events</h2>
+        <div class="grid">
+          <!-- Event card template -->
+          <article class="card">
+            <h4>J5 Prime Sprint</h4>
+            <div class="muted">Short sprint around the island circuit — 3 timed laps.</div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between">
+              <div class="small">143 participants</div>
+              <div style="display:flex;gap:8px">
+                <a class="btn ghost">View Timesheet</a>
+                <a class="btn primary">Submit Time</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h4>Night Sprint 2025</h4>
+            <div class="muted">High grip, low visibility — see who thrives under pressure.</div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between">
+              <div class="small">89 participants</div>
+              <div style="display:flex;gap:8px">
+                <a class="btn ghost">View Timesheet</a>
+                <a class="btn primary">Submit Time</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h4>City Sprint League</h4>
+            <div class="muted">Urban circuit, technical corners. Weekly leaderboard.</div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center;justify-content:space-between">
+              <div class="small">210 participants</div>
+              <div style="display:flex;gap:8px">
+                <a class="btn ghost">View Timesheet</a>
+                <a class="btn primary">Submit Time</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section style="display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start">
+        <div>
+          <h2 style="margin:0 0 12px">Top Performers Across All Events</h2>
+          <div class="card leader">
+            <div class="row">
+              <div class="user"><div class="avatar">IM</div><div><div style="font-weight:700">Immanuel</div><div class="muted">J5 Prime Sprint</div></div></div>
+              <div style="text-align:right"><div style="font-weight:800">01:30.882</div><div class="muted">#1</div></div>
+            </div>
+
+            <div class="row">
+              <div class="user"><div class="avatar">AD</div><div><div style="font-weight:700">Ade</div><div class="muted">Night Sprint 2025</div></div></div>
+              <div style="text-align:right"><div style="font-weight:800">01:32.554</div><div class="muted">#2</div></div>
+            </div>
+
+            <div class="row">
+              <div class="user"><div class="avatar">OY</div><div><div style="font-weight:700">Oyetunde</div><div class="muted">City Sprint League</div></div></div>
+              <div style="text-align:right"><div style="font-weight:800">01:33.001</div><div class="muted">#3</div></div>
+            </div>
+
+            <div style="display:flex;justify-content:center;margin-top:10px">
+              <a class="btn ghost">View All Leaderboards</a>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <h3 style="margin:0 0 10px">How it works</h3>
+          <div class="card steps" style="padding:12px">
+            <div class="step">
+              <div style="font-size:22px;font-weight:800">1</div>
+              <h5>Create an account</h5>
+              <div class="muted">Sign up fast and pick a racer tag.</div>
+            </div>
+            <div class="step">
+              <div style="font-size:22px;font-weight:800">2</div>
+              <h5>Pick an event</h5>
+              <div class="muted">Each event has its own timesheet and rules.</div>
+            </div>
+            <div class="step">
+              <div style="font-size:22px;font-weight:800">3</div>
+              <h5>Submit your time</h5>
+              <div class="muted">Add your best time. We show the best per user.</div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px" class="card">
+            <h4 style="margin:0 0 8px">Recent Activity</h4>
+            <div class="feed">
+              <div class="item"><strong>Immanuel</strong> submitted <strong>01:30.882</strong> in <em>J5 Prime Sprint</em></div>
+              <div class="item"><strong>Chi</strong> upgraded to <strong>01:34.112</strong> in <em>City Sprint League</em></div>
+              <div class="item"><strong>Ade</strong> submitted <strong>01:32.554</strong> in <em>Night Sprint 2025</em></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer>
+        <div class="small">© 2025 FastLap — All rights reserved</div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a class="small">Privacy</a>
+          <a class="small">Terms</a>
+        </div>
+      </footer>
+    </main>
+  </div>
 </body>
 </html>
+
+
+<script src="script.js"></script>

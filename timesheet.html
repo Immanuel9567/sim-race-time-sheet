@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sim Racing Timesheet</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://console.firebase.google.com/project/naija-racersquad/database/naija-racersquad-default-rtdb/data/~2F?fb_gclid=Cj0KCQiA6NTJBhDEARIsAB7QHD0cXi0aPiYxULfbE-SITNh43DQi9a3smoP9tWnxblp2dxft-C_12E4aAv6dEALw_wcB"></script>
+</head>
+<body>
+    <h1>Sim Racing Leaderboard</h1>
+
+<!-- Optional admin login -->
+<div id="loginContainer">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginBtn">Login as Admin</button>
+</div>
+
+<!-- Leaderboard & add form always visible -->
+<form id="timeForm">
+    <input type="text" id="driverName" placeholder="Driver Name" required>
+    <input type="text" id="lapTime" placeholder="Lap Time (MM:SS.mmm)" required>
+    <input type="text" id="teamName" placeholder="Team Name (optional)">
+    <button type="submit">Add Record</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Driver</th>
+            <th>Lap Time (MM:SS.mmm)</th>
+            <th>Team</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="leaderboard"></tbody>
+</table>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
