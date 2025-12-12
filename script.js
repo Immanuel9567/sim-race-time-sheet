@@ -14,4 +14,7 @@ const firebaseConfig = {
   measurementId: "G-4WGLG2J5F8"
 };
 
- 
+window.toggleFabMenu = function () {
+  document.getElementById("fabMenu").classList.toggle("show");
+};
+
