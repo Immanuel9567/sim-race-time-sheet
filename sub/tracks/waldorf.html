@@ -5,9 +5,20 @@
         <meta name="viewport" content="width=device-width,initial-scale=1"/>
         <title>Leaderboard — Waldorf Racing</title>
         <link rel="stylesheet" href="/css/style.css">
-        <script type="module" src="script.js" defer></script>
+        <script type="module" src="/script.js" defer></script>
     </head>
     <body>
+        <div class="fab-container">
+            <div class="fab" onclick="toggleFabMenu()">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <div class="fab-menu" id="fabMenu">
+                <a href="/sub/assoluto.html">AR Lobby</a>
+            </div>
+        </div>
         <h1 class=".center">9ja Racers Leaderboard Hub</h1>
         <h2>Waldorf Racing Leaderboard</h2>
         <p>This is the Waldorf Racing leaderboard page. More content coming soon!</p>
@@ -17,23 +28,22 @@
             </div>
         </resource-center>
 
-        <table border="1">
+        
+        <table>
             <thead>
                 <tr>
-                    <th>Position</th>
                     <th>Driver</th>
-                    <th>Lap Time</th>
-                    <th>Team (optional)</th>
+                    <th>Time</th>
+                    <th>Points</th>
+                    <th>Team</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Immanuel</td>
-                    <td>1:32.556</td>
-                    <td>Speed Demons</td>
-                </tr>
             </thead>
+            <tbody id="tableBody"></tbody>
         </table>
+        <div class="controls">
+            <button id="addBtn">Add Driver</button>
+        </div>
         <p>_______________________________________________________________________________________</p>
         <resource-center>
             <div class="img">
@@ -41,34 +51,24 @@
             </div>
         </resource-center>
         
-        <table border="1">
+        
+
+
+        <table>
             <thead>
                 <tr>
-                    <th>Position</th>
                     <th>Driver</th>
-                    <th>Lap Time</th>
-                    <th>Team (optional)</th>
+                    <th>Car</th>
+                    <th>Points</th>
+                    <th>Team</th>
                     <th>Action</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Immanuel</td>
-                    <td>1:32.556</td>
-                    <td>Speed Demons</td>
-                </tr>
             </thead>
+            <tbody id="tableBody"></tbody>
         </table>
-        <p class="btn-ghost"><a href="/sub/assoluto.html">Back</a></p>
-        <div class="fab-container">
-            <div class="fab" onclick="toggleFabMenu()">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
-            </div>
-
-            <div class="fab-menu" id="fabMenu">
-                <a href="/sub/assoluto.html">Home</a>
-            </div>
+        <div class="controls">
+            <button id="addBtn">Add Driver</button>
         </div>
+        <p class="btn-ghost"><a href="/sub/assoluto.html">Back</a></p>
     </body>
 </html>
