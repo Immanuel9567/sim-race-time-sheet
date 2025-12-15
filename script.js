@@ -112,4 +112,9 @@ await addDoc(leaderboardRef, {
   team: "New Team",
 });
 
+window.toggleFabMenu = () => {
+  document.getElementById("fabMenu").classList.toggle("show");
+};
 
+// Attach listener
+document.getElementById("fabBtn").addEventListener("click", toggleFabMenu);
