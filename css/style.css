@@ -30,7 +30,7 @@ p {
 	background: linear-gradient(135deg, #aaaaaa, #ee1a2b7a);
 	color: white;
 	padding: 10px 10px;
-	border: none;
+	border: 2px solid #7272729c;
 	border-radius: 9px;
   transition: 0.3s;
 	font-size: 1em;
@@ -176,6 +176,21 @@ margin-bottom: 15px;
   box-shadow: 0 4px 12px rgba(184, 184, 184, 0.116);
   transition: transform 0.2s ease;
   backdrop-filter: blur(2px);
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .fab {
+    bottom: 12px;
+    right: 12px;
+    width: 42px;
+    height: 42px;
+  }
 }
 
 .fab:hover {
@@ -219,5 +234,48 @@ margin-bottom: 15px;
   pointer-events: auto !important;
   transform: translateY(0);
   pointer-events: auto!important;
+}
+
+@media (max-width: 600px) {
+
+  table, thead, tbody, th, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none; /* headers become labels */
+  }
+
+  tr {
+    background: #161616;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.3);
+  }
+
+  td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 6px;
+    border: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    opacity: .7;
+    padding-right: 10px;
+  }
+
+  td:last-child {
+    justify-content: center;
+  }
+
+  button.delete {
+    width: 100%;
+    margin-top: 6px;
+  }
 }
 

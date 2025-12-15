@@ -78,26 +78,32 @@ snapshot.forEach(docSnap => {
 const d = docSnap.data();
 const tr = document.createElement("tr");
 
-
 tr.innerHTML = `
-  <td contenteditable data-field="driver" 
-      onblur="updateField('${docSnap.id}', 'driver', this.innerText)">${d.driver}</td>
+  <td data-label="Driver" contenteditable
+      onblur="updateField('${docSnap.id}', 'driver', this.innerText)">
+      ${d.driver}
+  </td>
 
-  <td contenteditable data-field="team" 
-      onblur="updateField('${docSnap.id}', 'time', this.innerText)">${d.time ?? ""}</td>
+  <td data-label="Team" contenteditable
+      onblur="updateField('${docSnap.id}', 'team', this.innerText)">
+      ${d.time ?? ""}
+  </td>
 
-  <td contenteditable data-field="car" 
-      onblur="updateField('${docSnap.id}', 'points', this.innerText)">${d.points}</td>
+  <td data-label="Car" contenteditable
+      onblur="updateField('${docSnap.id}', 'car', this.innerText)">
+      ${d.points}
+  </td>
 
-  <td contenteditable data-field="time" 
-      onblur="updateField('${docSnap.id}', 'team', this.innerText)">${d.team}</td>
+  <td data-label="Time" contenteditable
+      onblur="updateField('${docSnap.id}', 'time', this.innerText)">
+      ${d.team}
+  </td>
 
-  <td>
-    <button class="delete" onclick="deleteRow('${docSnap.id}')">Delete</button>
+  <td data-label="Action">
+    <button class="delete"
+      onclick="deleteRow('${docSnap.id}')">Delete</button>
   </td>
 `;
-
-
 
 tbody.appendChild(tr);
 });
@@ -111,6 +117,13 @@ await addDoc(leaderboardRef, {
   points: 0,
   team: "New Team",
 });
+
+const tables = {
+  championship1: collection(db, "waldorf_leaderboard"),
+  championship2: collection(db, "waldorfrev"),
+  timeTrial: collection(db, "leaderboard_timeTrial")
+};
+
 
 window.toggleFabMenu = () => {
   document.getElementById("fabMenu").classList.toggle("show");
