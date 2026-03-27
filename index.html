@@ -3,1146 +3,210 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Naija Racers Hub</title>
+  <title>NGN Sim Racers Club</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#e8f020">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    /* ─── TOKENS ─────────────────────────────────────────────── */
-    :root {
-      --bg:        #0a0a0b;
-      --surface:   #111113;
-      --surface2:  #18181c;
-      --border:    #2a2a30;
-      --accent:    #e8f020;   /* racing yellow */
-      --accent2:   #ff3c3c;   /* danger red */
-      --text:      #f0f0f2;
-      --muted:     #6b6b78;
-      --muted2:    #9090a0;
-      --r:         8px;
-      --font-head: 'Barlow Condensed', sans-serif;
-      --font-body: 'Barlow', sans-serif;
-    }
-
-    /* ─── RESET & BASE ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ─── LAYOUT ─────────────────────────────────────────────── */
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ─── HEADER / NAV ───────────────────────────────────────── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(10,10,11,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 60px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-head);
-    }
-
-    .logo {
-      background: var(--accent);
-      color: #000;
-      font-weight: 900;
-      font-size: 18px;
-      width: 40px; height: 40px;
-      display: grid; place-items: center;
-      border-radius: 6px;
-      letter-spacing: -1px;
-    }
-
-    .brand-name { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
-    .brand-sub  { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
-
-    nav { display: flex; align-items: center; gap: 6px; }
-    nav a { font-size: 13px; color: var(--muted2); padding: 6px 10px; border-radius: 6px; cursor: pointer; transition: color .2s; }
-    nav a:hover { color: var(--text); }
-
-    /* ─── BUTTONS ────────────────────────────────────────────── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      border-radius: 6px;
-      font-family: var(--font-head);
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      border: none;
-      transition: all .18s;
-      white-space: nowrap;
-    }
-    .btn-primary { background: var(--accent); color: #000; }
-    .btn-primary:hover { background: #fff083; }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn-ghost:hover { border-color: var(--muted2); background: var(--surface2); }
-    .btn-danger { background: var(--accent2); color: #fff; }
-    .btn-danger:hover { background: #ff6060; }
-    .btn-sm { padding: 5px 12px; font-size: 12px; }
-
-    /* ─── HERO ───────────────────────────────────────────────── */
-    .hero {
-      padding: 60px 0 40px;
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(232,240,32,.1);
-      border: 1px solid rgba(232,240,32,.25);
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      padding: 5px 12px;
-      border-radius: 99px;
-      margin-bottom: 20px;
-    }
-
-    .hero-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% { opacity: 1; }
-      50% { opacity: .3; }
-    }
-
-    h1 {
-      font-family: var(--font-head);
-      font-size: clamp(36px, 5vw, 58px);
-      font-weight: 900;
-      line-height: 1.0;
-      letter-spacing: -1px;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-    }
-
-    h1 span { color: var(--accent); }
-
-    .hero-sub {
-      color: var(--muted2);
-      font-size: 16px;
-      max-width: 500px;
-      margin-bottom: 28px;
-      line-height: 1.7;
-    }
-
-    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 36px; }
-
-    .stats-row {
-      display: flex;
-      gap: 28px;
-      padding-top: 28px;
-      border-top: 1px solid var(--border);
-    }
-
-    .stat-item strong {
-      display: block;
-      font-family: var(--font-head);
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--text);
-    }
-
-    .stat-item span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-
-    /* ─── FEATURED EVENT CARD ────────────────────────────────── */
-    .featured-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 22px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .featured-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--accent);
-    }
-
-    .featured-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--accent);
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    .featured-title {
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 11px;
-      font-weight: 600;
-      padding: 3px 10px;
-      border-radius: 99px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .badge-open  { background: rgba(232,240,32,.15); color: var(--accent); }
-    .badge-live  { background: rgba(255,60,60,.15); color: var(--accent2); }
-
-    .badge-open::before, .badge-live::before {
-      content: ''; width: 5px; height: 5px; border-radius: 50%;
-    }
-    .badge-open::before { background: var(--accent); }
-    .badge-live::before { background: var(--accent2); animation: pulse 1s infinite; }
-
-    /* ─── SECTIONS ───────────────────────────────────────────── */
-    section { padding: 40px 0; border-top: 1px solid var(--border); }
-
-    h2 {
-      font-family: var(--font-head);
-      font-size: 28px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 20px;
-    }
-
-    h3 {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    /* ─── CARDS / GRID ───────────────────────────────────────── */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px;
-      transition: border-color .2s, transform .2s;
-    }
-
-    .card:hover { border-color: var(--muted); transform: translateY(-2px); }
-
-    .card h4 {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .card-meta {
-      color: var(--muted2);
-      font-size: 13px;
-      margin-bottom: 14px;
-    }
-
-    .card-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .participants { font-size: 12px; color: var(--muted); }
-
-    /* ─── LEADERBOARD TABLE ──────────────────────────────────── */
-    .leaderboard-wrap {
-      display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .lb-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-
-    .lb-row {
-      display: grid;
-      grid-template-columns: 40px 1fr auto auto;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 18px;
-      border-bottom: 1px solid var(--border);
-      transition: background .15s;
-    }
-
-    .lb-row:last-child { border-bottom: none; }
-    .lb-row:hover { background: var(--surface2); }
-
-    .lb-row.gold   .pos { color: #ffd700; }
-    .lb-row.silver .pos { color: #c0c0c0; }
-    .lb-row.bronze .pos { color: #cd7f32; }
-
-    .pos {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .avatar {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      display: grid; place-items: center;
-      font-family: var(--font-head);
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent);
-      flex-shrink: 0;
-    }
-
-    .driver-info { display: flex; align-items: center; gap: 10px; }
-    .driver-name { font-weight: 600; font-size: 14px; }
-    .driver-event { font-size: 12px; color: var(--muted2); }
-
-    .lap-time {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--accent);
-      text-align: right;
-    }
-
-    /* ─── SUBMIT TIMESHEET SECTION ───────────────────────────── */
-    .timesheet-layout {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-
-    .form-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 24px;
-    }
-
-    .form-card h3 { margin-bottom: 20px; }
-
-    .field { margin-bottom: 14px; }
-    .field label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted2); font-weight: 600; margin-bottom: 6px; }
-
-    .field input, .field select {
-      width: 100%;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 14px;
-      padding: 10px 14px;
-      transition: border-color .2s;
-      outline: none;
-      appearance: none;
-    }
-
-    .field input:focus, .field select:focus { border-color: var(--accent); }
-    .field input::placeholder { color: var(--muted); }
-
-    .field input.error { border-color: var(--accent2); }
-    .error-msg { font-size: 12px; color: var(--accent2); margin-top: 4px; display: none; }
-    .field.has-error .error-msg { display: block; }
-
-    /* ─── FULL TIMESHEET TABLE ───────────────────────────────── */
-    .ts-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .ts-filter {
-      display: flex;
-      gap: 8px;
-    }
-
-    .ts-filter select {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 13px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      outline: none;
-      appearance: none;
-      cursor: pointer;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--surface);
-      border-radius: var(--r);
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-
-    thead tr {
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-    }
-
-    th {
-      padding: 11px 16px;
-      text-align: left;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--muted2);
-      font-weight: 600;
-    }
-
-    td {
-      padding: 13px 16px;
-      font-size: 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    tbody tr:last-child td { border-bottom: none; }
-    tbody tr:hover { background: var(--surface2); }
-
-    td.time-col {
-      font-family: var(--font-head);
-      font-size: 17px;
-      font-weight: 800;
-      color: var(--accent);
-    }
-
-    td.pos-col {
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--muted);
-      width: 50px;
-    }
-
-    .delete-btn {
-      background: none;
-      border: 1px solid transparent;
-      color: var(--muted);
-      cursor: pointer;
-      padding: 4px 8px;
-      border-radius: 4px;
-      font-size: 13px;
-      transition: all .15s;
-    }
-    .delete-btn:hover { color: var(--accent2); border-color: var(--accent2); }
-
-    .empty-state {
-      text-align: center;
-      padding: 40px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    /* ─── SIDEBAR WIDGETS ────────────────────────────────────── */
-    .sidebar { display: flex; flex-direction: column; gap: 16px; }
-
-    .steps-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px;
-    }
-
-    .step {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .step:last-child { border-bottom: none; }
-
-    .step-num {
-      font-family: var(--font-head);
-      font-size: 24px;
-      font-weight: 900;
-      color: var(--accent);
-      line-height: 1;
-      flex-shrink: 0;
-      width: 28px;
-    }
-
-    .step h5 { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
-    .step p { color: var(--muted2); font-size: 13px; }
-
-    .feed-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 20px;
-    }
-
-    .feed-card h4 {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 14px;
-    }
-
-    .feed-item {
-      font-size: 13px;
-      color: var(--muted2);
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      line-height: 1.5;
-    }
-
-    .feed-item:last-child { border-bottom: none; }
-    .feed-item strong { color: var(--text); }
-    .feed-item em { color: var(--accent); font-style: normal; }
-
-    /* ─── ADMIN PANEL ────────────────────────────────────────── */
-    .admin-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 8px 14px;
-      margin-bottom: 20px;
-      font-size: 13px;
-      color: var(--muted2);
-    }
-
-    .admin-bar input {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--text);
-      font-size: 13px;
-      padding: 5px 10px;
-      outline: none;
-      width: 140px;
-    }
-
-    /* ─── TOAST ──────────────────────────────────────────────── */
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 14px;
-      color: var(--text);
-      z-index: 999;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: all .25s;
-      pointer-events: none;
-      max-width: 300px;
-    }
-
-    #toast.show { opacity: 1; transform: translateY(0); }
-    #toast.success { border-color: var(--accent); color: var(--accent); }
-    #toast.error   { border-color: var(--accent2); color: var(--accent2); }
-
-    /* ─── FOOTER ─────────────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 24px 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 40px;
-    }
-
-    footer a { color: var(--muted); }
-    footer a:hover { color: var(--text); }
-
-    /* ─── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      .hero { grid-template-columns: 1fr; }
-      .leaderboard-wrap { grid-template-columns: 1fr; }
-      .timesheet-layout { grid-template-columns: 1fr; }
-      nav a:not(.btn) { display: none; }
-      .stats-row { gap: 18px; flex-wrap: wrap; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- ─── HEADER ─────────────────────────────────────────────── -->
 <header>
-  <div class="wrap">
-    <div class="nav-inner">
-      <div class="brand">
-        <div class="logo">V8</div>
-        <div>
-          <div class="brand-name">Naija Racers Hub</div>
-          <div class="brand-sub">Leaderboards &amp; Events</div>
-        </div>
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <div class="logo">V8</div>
+      <div>
+        <div class="brand-name">Nigeria Sim Racers Club</div>
+        <div class="brand-sub">Leaderboards &amp; Events</div>
       </div>
-      <nav>
-        <a href="#events">Events</a>
-        <a href="#leaderboard">Leaderboard</a>
-        <a href="#timesheet">Submit Time</a>
-        <a class="btn btn-ghost btn-sm" id="adminToggle">Admin</a>
-      </nav>
     </div>
+    <nav>
+      <a href="#events">Events</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#timesheet">Submit Time</a>
+      <button id="notifBtn"    class="btn btn-ghost btn-sm" title="Enable notifications">🔔</button>
+      <button id="installBtn"  class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
+      <button id="adminToggle" class="btn btn-ghost btn-sm">Admin</button>
+    </nav>
   </div>
 </header>
 
-<!-- ─── HERO ───────────────────────────────────────────────── -->
 <div class="wrap">
-  <section class="hero" style="border-top:none; padding-top:52px">
+
+  <!-- HERO -->
+  <section class="hero">
     <div>
       <div class="hero-tag">&#9679; Open Events Active</div>
       <h1>Track Your <span>Performance.</span><br>Dominate the Board.</h1>
-      <p class="hero-sub">Join events, submit verified times, and compete with racers. Simple, fast, focused on what matters — your lap.</p>
+      <p class="hero-sub">Join events, submit verified times, and compete with racers across Nigeria. Focused on what matters — your lap.</p>
       <div class="hero-actions">
         <a href="#events" class="btn btn-primary">View Events</a>
         <a href="#timesheet" class="btn btn-ghost">Submit a Time</a>
       </div>
       <div class="stats-row">
         <div class="stat-item"><strong id="statSubmissions">0</strong><span>Submissions</span></div>
-        <div class="stat-item"><strong>3</strong><span>Active Events</span></div>
+        <div class="stat-item"><strong id="statEvents">0</strong><span>Events</span></div>
         <div class="stat-item"><strong id="statRacers">0</strong><span>Racers</span></div>
       </div>
     </div>
-
     <div class="featured-card">
       <div class="featured-label">&#9654; Featured Event</div>
-      <div class="featured-title">Waldorf Class S+</div>
-      <div style="color:var(--muted2);font-size:13px;margin-bottom:14px">Dec 18, 2025 &nbsp;·&nbsp; 3 Laps Timed</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <span class="badge badge-open">Open</span>
-        <span style="font-size:12px;color:var(--muted)">8 participants</span>
+      <div class="featured-title" id="featuredTitle">—</div>
+      <div class="muted sm" id="featuredDate"></div>
+      <div class="featured-meta">
+        <span class="badge badge-open" id="featuredBadge">Open</span>
+        <span class="muted sm" id="featuredCount">—</span>
       </div>
-      <a href="#timesheet" class="btn btn-primary" style="width:100%;justify-content:center">Enter Event</a>
+      <button id="featuredSubmit" class="btn btn-primary full">Enter Event</button>
     </div>
   </section>
 
-  <!-- ─── EVENTS ─────────────────────────────────────────────── -->
+  <!-- ADMIN PANEL (shown after login) -->
+  <div id="adminPanel" style="display:none" class="admin-panel">
+    <div class="admin-header">
+      <h3>⚡ Admin Panel</h3>
+      <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">Log out</button>
+    </div>
+    <p class="muted sm" style="margin-bottom:16px">Create and edit events, set the featured event, configure expiry dates, and delete individual times below.</p>
+    <button class="btn btn-primary" onclick="openCreateEventModal()">＋ Create New Event</button>
+  </div>
+
+  <!-- EVENTS -->
   <section id="events">
-    <h2>Active Events</h2>
-    <div class="card-grid">
-      <article class="card">
-        <div class="badge badge-open" style="margin-bottom:12px">Open</div>
-        <h4>J5 Prime Sprint</h4>
-        <p class="card-meta">Short sprint around the island circuit — 3 timed laps.</p>
-        <div class="card-foot">
-          <span class="participants" id="count-j5">— participants</span>
-          <div style="display:flex;gap:8px">
-            <a href="#leaderboard" class="btn btn-ghost btn-sm">Leaderboard</a>
-            <a href="#timesheet" class="btn btn-primary btn-sm" onclick="selectEvent('J5 Prime Sprint')">Submit</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="badge badge-live" style="margin-bottom:12px">Live</div>
-        <h4>Night Sprint 2025</h4>
-        <p class="card-meta">High grip, low visibility — see who thrives under pressure.</p>
-        <div class="card-foot">
-          <span class="participants" id="count-night">— participants</span>
-          <div style="display:flex;gap:8px">
-            <a href="#leaderboard" class="btn btn-ghost btn-sm">Leaderboard</a>
-            <a href="#timesheet" class="btn btn-primary btn-sm" onclick="selectEvent('Night Sprint 2025')">Submit</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="badge badge-open" style="margin-bottom:12px">Open</div>
-        <h4>City Sprint League</h4>
-        <p class="card-meta">Urban circuit, technical corners. Weekly leaderboard.</p>
-        <div class="card-foot">
-          <span class="participants" id="count-city">— participants</span>
-          <div style="display:flex;gap:8px">
-            <a href="#leaderboard" class="btn btn-ghost btn-sm">Leaderboard</a>
-            <a href="#timesheet" class="btn btn-primary btn-sm" onclick="selectEvent('City Sprint League')">Submit</a>
-          </div>
-        </div>
-      </article>
-    </div>
+    <h2>Events</h2>
+    <div class="card-grid" id="eventsGrid"></div>
   </section>
 
-  <!-- ─── LEADERBOARD ────────────────────────────────────────── -->
+  <!-- LEADERBOARD -->
   <section id="leaderboard">
-    <div class="leaderboard-wrap">
+    <div class="lb-wrap">
       <div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="section-head">
           <h2 style="margin:0">Top Performers</h2>
-          <select id="lbFilter" style="background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:var(--font-body);font-size:13px;padding:6px 12px;border-radius:6px;outline:none;cursor:pointer">
-            <option value="all">All Events</option>
-            <option value="J5 Prime Sprint">J5 Prime Sprint</option>
-            <option value="Night Sprint 2025">Night Sprint 2025</option>
-            <option value="City Sprint League">City Sprint League</option>
-          </select>
+          <select id="lbFilter" class="filter-sel"><option value="all">All Events</option></select>
         </div>
-
         <div class="lb-card">
-          <tbody id="leaderboardBody" style="display:table;width:100%;border-collapse:collapse">
-            <tr><td colspan="4" class="empty-state">No times submitted yet. Be the first!</td></tr>
-          </tbody>
+          <table><tbody id="leaderboardBody">
+            <tr><td colspan="4" class="empty-state">No times yet — be first!</td></tr>
+          </tbody></table>
         </div>
       </div>
-
       <aside class="sidebar">
         <div class="steps-card">
           <h3 style="margin-bottom:4px">How It Works</h3>
-          <div class="step">
-            <div class="step-num">1</div>
-            <div><h5>Pick an event</h5><p>Three circuits open now.</p></div>
-          </div>
-          <div class="step">
-            <div class="step-num">2</div>
-            <div><h5>Submit your time</h5><p>MM:SS.mmm format. Best lap only.</p></div>
-          </div>
-          <div class="step">
-            <div class="step-num">3</div>
-            <div><h5>Climb the board</h5><p>Improve your time anytime.</p></div>
-          </div>
+          <div class="step"><div class="step-num">1</div><div><h5>Pick an event</h5><p>Open events accept new times.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div><h5>Submit your time</h5><p>MM:SS.mmm — best lap counts.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div><h5>Climb the board</h5><p>Beat your time to move up.</p></div></div>
         </div>
-
         <div class="feed-card">
           <h4>Recent Activity</h4>
-          <div id="activityFeed">
-            <div class="feed-item" style="color:var(--muted)">No activity yet.</div>
-          </div>
+          <div id="activityFeed"><div class="feed-item muted">No activity yet.</div></div>
         </div>
       </aside>
     </div>
   </section>
 
-  <!-- ─── SUBMIT TIME ─────────────────────────────────────────── -->
+  <!-- TIMESHEET -->
   <section id="timesheet">
     <h2>Submit Your Time</h2>
-
-    <div id="adminBar" style="display:none" class="admin-bar">
-      <span>&#9888; Admin Mode</span>
-      <input type="password" id="adminPass" placeholder="Enter admin password" autocomplete="off">
-      <button class="btn btn-sm btn-ghost" onclick="verifyAdmin()">Unlock</button>
-      <span id="adminStatus" style="display:none;color:var(--accent)">&#10003; Unlocked — you can delete entries</span>
-    </div>
-
-    <div class="timesheet-layout">
+    <div class="ts-layout">
       <div class="form-card">
         <h3>New Submission</h3>
-
         <div class="field" id="field-driver">
           <label>Driver Name</label>
-          <input type="text" id="inputDriver" placeholder="e.g. Immanuel" maxlength="30">
+          <input type="text" id="inputDriver" placeholder="e.g. Immanuel" maxlength="30" autocomplete="off">
           <div class="error-msg">Driver name is required.</div>
         </div>
-
         <div class="field" id="field-lap">
           <label>Lap Time</label>
-          <input type="text" id="inputLap" placeholder="MM:SS.mmm — e.g. 01:32.445" maxlength="10">
+          <input type="text" id="inputLap" placeholder="MM:SS.mmm — e.g. 01:32.445" maxlength="10" autocomplete="off">
           <div class="error-msg">Enter a valid time (MM:SS.mmm).</div>
         </div>
-
         <div class="field">
           <label>Event</label>
-          <select id="inputEvent">
-            <option value="J5 Prime Sprint">J5 Prime Sprint</option>
-            <option value="Night Sprint 2025">Night Sprint 2025</option>
-            <option value="City Sprint League">City Sprint League</option>
-          </select>
+          <select id="inputEvent"></select>
         </div>
-
         <div class="field">
           <label>Team (optional)</label>
           <input type="text" id="inputTeam" placeholder="Team name" maxlength="30">
         </div>
-
-        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="submitTime()">
-          &#9654; Submit Time
-        </button>
+        <button class="btn btn-primary full" onclick="submitTime()">&#9654;&nbsp;Submit Time</button>
       </div>
-
       <div>
-        <div class="ts-header">
+        <div class="section-head" style="margin-bottom:14px">
           <h3>All Times</h3>
-          <div class="ts-filter">
-            <select id="tsFilter" onchange="renderTable()">
-              <option value="all">All Events</option>
-              <option value="J5 Prime Sprint">J5 Prime Sprint</option>
-              <option value="Night Sprint 2025">Night Sprint 2025</option>
-              <option value="City Sprint League">City Sprint League</option>
-            </select>
-          </div>
+          <select id="tsFilter" class="filter-sel"><option value="all">All Events</option></select>
         </div>
-
         <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Driver</th>
-              <th>Lap Time</th>
-              <th>Event</th>
-              <th>Team</th>
-              <th class="adminOnly" style="display:none"></th>
-            </tr>
-          </thead>
+          <thead><tr>
+            <th>#</th><th>Driver</th><th>Lap Time</th><th>Event</th><th>Team</th>
+            <th class="adminOnly" style="display:none"></th>
+          </tr></thead>
           <tbody id="timesheetBody">
-            <tr><td colspan="6" class="empty-state">No times yet. Submit the first one!</td></tr>
+            <tr><td colspan="6" class="empty-state">No times yet.</td></tr>
           </tbody>
         </table>
       </div>
     </div>
   </section>
 
-  <!-- ─── FOOTER ─────────────────────────────────────────────── -->
   <footer>
-    <div>© 2025 Naija Racers Hub — All rights reserved</div>
-    <div style="display:flex;gap:16px">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-    </div>
+    <div>© 2026 NGN Sim Racers Club — All rights reserved</div>
   </footer>
 </div>
 
-<!-- ─── TOAST ──────────────────────────────────────────────── -->
 <div id="toast"></div>
 
-<!-- ─── SCRIPT ─────────────────────────────────────────────── -->
-<script>
-/* ═══════════════════════════════════════════════════════════════
-   DATA LAYER
-   All times stored in memory. Swap this section out for
-   Firebase / Supabase by replacing load() and save().
-═══════════════════════════════════════════════════════════════ */
+<!-- ADMIN LOGIN MODAL -->
+<div id="adminModal" class="modal-overlay">
+  <div class="modal">
+    <h3>Admin Login</h3>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="adminPassInput" placeholder="Enter admin password" autocomplete="current-password">
+    </div>
+    <div class="admin-error" id="adminPassError">Incorrect password. Try again.</div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeAdminModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="verifyAdmin()">Unlock</button>
+    </div>
+  </div>
+</div>
 
-const ADMIN_PASSWORD = 'fastlap2025'; // change this
-let times = JSON.parse(localStorage.getItem('nrh_times') || '[]');
-let isAdmin = false;
+<!-- CREATE / EDIT EVENT MODAL -->
+<div id="eventModal" class="modal-overlay">
+  <div class="modal" style="max-width:500px">
+    <h3 id="eventModalTitle">Create Event</h3>
+    <input type="hidden" id="evtModalId">
+    <div class="field"><label>Event Name *</label><input type="text" id="evtName" placeholder="e.g. Lekki Night Sprint" maxlength="60"></div>
+    <div class="field"><label>Description</label><textarea id="evtDesc" placeholder="Short description…"></textarea></div>
+    <div class="field"><label>Start Date</label><input type="date" id="evtDate"></div>
+    <div class="field">
+      <label>Expiry Date <span class="muted">(auto-closes event on this date)</span></label>
+      <input type="date" id="evtExpiry">
+    </div>
+    <div class="field"><label>Status</label>
+      <select id="evtStatus">
+        <option value="open">Open</option>
+        <option value="live">Live</option>
+        <option value="closed">Closed</option>
+      </select>
+    </div>
+    <div class="field">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type="checkbox" id="evtFeatured" style="width:auto;accent-color:var(--accent)">
+        Set as Featured Event
+      </label>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeEventModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+    </div>
+  </div>
+</div>
 
-function save() {
-  localStorage.setItem('nrh_times', JSON.stringify(times));
-}
-
-/* ═══ UTILITIES ════════════════════════════════════════════════ */
-
-// Parse MM:SS.mmm into total milliseconds for sorting
-function parseLap(str) {
-  const m = str.match(/^(\d{1,2}):(\d{2})\.(\d{3})$/);
-  if (!m) return Infinity;
-  return (+m[1]) * 60000 + (+m[2]) * 1000 + (+m[3]);
-}
-
-function fmtTime(str) { return str; }
-
-function initials(name) {
-  return name.trim().split(/\s+/).map(w => w[0]).join('').toUpperCase().slice(0, 2);
-}
-
-function toast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.className = '', 2800);
-}
-
-/* ═══ SUBMIT ════════════════════════════════════════════════════ */
-
-function selectEvent(name) {
-  document.getElementById('inputEvent').value = name;
-  document.getElementById('tsFilter').value = name;
-  document.getElementById('lbFilter').value = name;
-  setTimeout(() => { document.getElementById('inputDriver').focus(); }, 300);
-}
-
-function submitTime() {
-  const driver = document.getElementById('inputDriver').value.trim();
-  const lap    = document.getElementById('inputLap').value.trim();
-  const event  = document.getElementById('inputEvent').value;
-  const team   = document.getElementById('inputTeam').value.trim();
-
-  // Validation
-  let valid = true;
-
-  const fd = document.getElementById('field-driver');
-  const fl = document.getElementById('field-lap');
-  fd.classList.remove('has-error');
-  fl.classList.remove('has-error');
-
-  if (!driver) { fd.classList.add('has-error'); valid = false; }
-  if (parseLap(lap) === Infinity) { fl.classList.add('has-error'); valid = false; }
-
-  if (!valid) return;
-
-  // Best-per-driver: only keep better time
-  const ms = parseLap(lap);
-  const existing = times.findIndex(t => t.driver.toLowerCase() === driver.toLowerCase() && t.event === event);
-
-  if (existing !== -1) {
-    if (ms < parseLap(times[existing].lap)) {
-      times[existing].lap  = lap;
-      times[existing].team = team || times[existing].team;
-      toast(`Updated! New best for ${driver}: ${lap}`);
-    } else {
-      toast(`${driver} already has a faster time in this event.`, 'error');
-      return;
-    }
-  } else {
-    times.push({ driver, lap, event, team, ts: Date.now() });
-    toast(`Time submitted: ${driver} — ${lap}`);
-    pushActivity(driver, lap, event);
-  }
-
-  save();
-  document.getElementById('inputLap').value = '';
-  document.getElementById('inputDriver').value = '';
-  document.getElementById('inputTeam').value = '';
-  renderAll();
-}
-
-/* ═══ RENDER ════════════════════════════════════════════════════ */
-
-function getFiltered(filterVal) {
-  const subset = filterVal === 'all' ? times : times.filter(t => t.event === filterVal);
-  return [...subset].sort((a, b) => parseLap(a.lap) - parseLap(b.lap));
-}
-
-function renderAll() {
-  renderLeaderboard();
-  renderTable();
-  renderStats();
-  renderCounts();
-}
-
-const MEDALS = ['gold', 'silver', 'bronze'];
-
-function renderLeaderboard() {
-  const filter = document.getElementById('lbFilter').value;
-  const rows   = getFiltered(filter).slice(0, 10);
-  const tbody  = document.getElementById('leaderboardBody');
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No times yet. Be first!</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = rows.map((r, i) => `
-    <tr class="lb-row ${MEDALS[i] || ''}">
-      <td class="pos">${i + 1}</td>
-      <td>
-        <div class="driver-info">
-          <div class="avatar">${initials(r.driver)}</div>
-          <div>
-            <div class="driver-name">${esc(r.driver)}</div>
-            <div class="driver-event">${esc(r.event)}</div>
-          </div>
-        </div>
-      </td>
-      <td class="lap-time">${fmtTime(r.lap)}</td>
-      <td style="color:var(--muted2);font-size:12px">${r.team ? esc(r.team) : '—'}</td>
-    </tr>
-  `).join('');
-}
-
-function renderTable() {
-  const filter = document.getElementById('tsFilter').value;
-  const rows   = getFiltered(filter);
-  const tbody  = document.getElementById('timesheetBody');
-
-  // Show/hide admin column
-  document.querySelectorAll('.adminOnly').forEach(el => {
-    el.style.display = isAdmin ? '' : 'none';
-  });
-
-  if (!rows.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">No times yet. Submit the first one!</td></tr>`;
-    return;
-  }
-
-  tbody.innerHTML = rows.map((r, i) => `
-    <tr>
-      <td class="pos-col">${i + 1}</td>
-      <td>
-        <div class="driver-info">
-          <div class="avatar" style="width:28px;height:28px;font-size:11px">${initials(r.driver)}</div>
-          <div>
-            <div style="font-weight:600">${esc(r.driver)}</div>
-            ${r.team ? `<div style="font-size:12px;color:var(--muted2)">${esc(r.team)}</div>` : ''}
-          </div>
-        </div>
-      </td>
-      <td class="time-col">${fmtTime(r.lap)}</td>
-      <td style="font-size:13px;color:var(--muted2)">${esc(r.event)}</td>
-      <td style="font-size:13px;color:var(--muted2)">${r.team ? esc(r.team) : '—'}</td>
-      ${isAdmin ? `<td><button class="delete-btn" onclick="deleteEntry('${r.driver}','${r.event}')">✕ Delete</button></td>` : ''}
-    </tr>
-  `).join('');
-}
-
-function renderStats() {
-  const racers = new Set(times.map(t => t.driver.toLowerCase())).size;
-  document.getElementById('statSubmissions').textContent = times.length;
-  document.getElementById('statRacers').textContent      = racers;
-}
-
-function renderCounts() {
-  const countMap = { 'j5': 'J5 Prime Sprint', 'night': 'Night Sprint 2025', 'city': 'City Sprint League' };
-  for (const [key, event] of Object.entries(countMap)) {
-    const n = times.filter(t => t.event === event).length;
-    const el = document.getElementById('count-' + key);
-    if (el) el.textContent = n + ' participant' + (n !== 1 ? 's' : '');
-  }
-}
-
-/* ═══ ACTIVITY FEED ═════════════════════════════════════════════ */
-
-let activityLog = JSON.parse(localStorage.getItem('nrh_activity') || '[]');
-
-function pushActivity(driver, lap, event) {
-  activityLog.unshift({ driver, lap, event });
-  if (activityLog.length > 10) activityLog = activityLog.slice(0, 10);
-  localStorage.setItem('nrh_activity', JSON.stringify(activityLog));
-  renderActivity();
-}
-
-function renderActivity() {
-  const feed = document.getElementById('activityFeed');
-  if (!activityLog.length) {
-    feed.innerHTML = `<div class="feed-item" style="color:var(--muted)">No activity yet.</div>`;
-    return;
-  }
-  feed.innerHTML = activityLog.map(a =>
-    `<div class="feed-item"><strong>${esc(a.driver)}</strong> submitted <em>${a.lap}</em> in <strong>${esc(a.event)}</strong></div>`
-  ).join('');
-}
-
-/* ═══ ADMIN ═════════════════════════════════════════════════════ */
-
-document.getElementById('adminToggle').addEventListener('click', () => {
-  const bar = document.getElementById('adminBar');
-  bar.style.display = bar.style.display === 'none' ? 'flex' : 'none';
-  if (bar.style.display !== 'none') {
-    document.getElementById('timesheet').scrollIntoView({ behavior: 'smooth' });
-  }
-});
-
-function verifyAdmin() {
-  const pw = document.getElementById('adminPass').value;
-  if (pw === ADMIN_PASSWORD) {
-    isAdmin = true;
-    document.getElementById('adminStatus').style.display = 'inline';
-    document.getElementById('adminPass').style.display   = 'none';
-    document.querySelector('[onclick="verifyAdmin()"]').style.display = 'none';
-    renderTable();
-    toast('Admin mode unlocked.');
-  } else {
-    toast('Wrong password.', 'error');
-  }
-}
-
-function deleteEntry(driver, event) {
-  if (!isAdmin) return;
-  if (!confirm(`Delete ${driver}'s time from ${event}?`)) return;
-  times = times.filter(t => !(t.driver === driver && t.event === event));
-  save();
-  renderAll();
-  toast(`Deleted ${driver}'s entry.`, 'error');
-}
-
-/* ═══ FILTER LISTENERS ══════════════════════════════════════════ */
-
-document.getElementById('lbFilter').addEventListener('change', renderLeaderboard);
-document.getElementById('tsFilter').addEventListener('change', renderTable);
-
-/* ═══ LAP TIME AUTO-FORMAT ══════════════════════════════════════ */
-
-document.getElementById('inputLap').addEventListener('input', function () {
-  // Auto-insert colon and dot for convenience
-  let v = this.value.replace(/[^\d:.]/g, '');
-  this.value = v;
-});
-
-/* ═══ HELPER ════════════════════════════════════════════════════ */
-
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-/* ═══ INIT ══════════════════════════════════════════════════════ */
-renderAll();
-renderActivity();
-</script>
+<script src="./app.js"></script>
 </body>
 </html>
