@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <title>NGN Sim Racers Club</title>
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#e8f020">
@@ -16,19 +16,19 @@
 <header>
   <div class="wrap nav-inner">
     <div class="brand">
-      <div class="logo">V8</div>
+      <a href="index.html" class="btn btn-ghost btn-sm" style="margin-right:8px">← Back</a>
+      <div class="logo" id="gameLogo">V8</div>
       <div>
-        <div class="brand-name">Nigeria Sim Racers Club</div>
-        <div class="brand-sub">Leaderboards &amp; Events</div>
+        <div class="brand-name" id="gameTitle">Game</div>
+        <div class="brand-sub">NGN Sim Racers Club</div>
       </div>
     </div>
     <nav>
       <a href="#events">Events</a>
       <a href="#leaderboard">Leaderboard</a>
-      <a href="#timesheet">Submit Time</a>
-      <button id="notifBtn"    class="btn btn-ghost btn-sm" title="Enable notifications">🔔</button>
+      <button id="notifBtn"    class="btn btn-ghost btn-sm">🔔</button>
       <button id="installBtn"  class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
-      <button id="adminToggle" class="btn btn-ghost btn-sm">Admin</button>
+      <button id="userMenuBtn" class="btn btn-ghost btn-sm">Account</button>
     </nav>
   </div>
 </header>
@@ -38,12 +38,11 @@
   <!-- HERO -->
   <section class="hero">
     <div>
-      <div class="hero-tag">&#9679; Open Events Active</div>
-      <h1>Track Your <span>Performance.</span><br>Dominate the Board.</h1>
-      <p class="hero-sub">Join events, submit verified times, and compete with racers across Nigeria. Focused on what matters — your lap.</p>
-      <div class="hero-actions">
+      <div class="hero-tag" id="heroTag">&#9679; Open Events Active</div>
+      <h1 id="heroTitle">Game<br><span>Leaderboard</span></h1>
+      <p class="hero-sub" id="heroSub">Track lap times, climb the leaderboard and compete with Nigerian sim racers.</p>
+      <div class="hero-actions" id="heroActions">
         <a href="#events" class="btn btn-primary">View Events</a>
-        <a href="#timesheet" class="btn btn-ghost">Submit a Time</a>
       </div>
       <div class="stats-row">
         <div class="stat-item"><strong id="statSubmissions">0</strong><span>Submissions</span></div>
@@ -63,14 +62,21 @@
     </div>
   </section>
 
-  <!-- ADMIN PANEL (shown after login) -->
+  <!-- MEMBERSHIP BAR -->
+  <div id="memberBar" style="display:none" class="member-bar"></div>
+
+  <!-- ADMIN PANEL -->
   <div id="adminPanel" style="display:none" class="admin-panel">
     <div class="admin-header">
-      <h3>⚡ Admin Panel</h3>
-      <button class="btn btn-ghost btn-sm" onclick="logoutAdmin()">Log out</button>
+      <h3>⚡ Game Admin Panel</h3>
+      <span id="adminRole" class="badge badge-live"></span>
     </div>
-    <p class="muted sm" style="margin-bottom:16px">Create and edit events, set the featured event, configure expiry dates, and delete individual times below.</p>
-    <button class="btn btn-primary" onclick="openCreateEventModal()">＋ Create New Event</button>
+    <p class="muted sm" style="margin-bottom:16px">Manage events and approve members for this game.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="openCreateEventModal()">＋ Create Event</button>
+      <button class="btn btn-ghost"   onclick="showPendingPanel()">👥 Pending Members</button>
+    </div>
+    <div id="pendingMembers" style="display:none;margin-top:16px"></div>
   </div>
 
   <!-- EVENTS -->
@@ -96,7 +102,7 @@
       <aside class="sidebar">
         <div class="steps-card">
           <h3 style="margin-bottom:4px">How It Works</h3>
-          <div class="step"><div class="step-num">1</div><div><h5>Pick an event</h5><p>Open events accept new times.</p></div></div>
+          <div class="step"><div class="step-num">1</div><div><h5>Join the game</h5><p>Request membership — approved by admins.</p></div></div>
           <div class="step"><div class="step-num">2</div><div><h5>Submit your time</h5><p>MM:SS.mmm — best lap counts.</p></div></div>
           <div class="step"><div class="step-num">3</div><div><h5>Climb the board</h5><p>Beat your time to move up.</p></div></div>
         </div>
@@ -108,8 +114,8 @@
     </div>
   </section>
 
-  <!-- TIMESHEET -->
-  <section id="timesheet">
+  <!-- TIMESHEET (only visible to approved members) -->
+  <section id="timesheet" style="display:none">
     <h2>Submit Your Time</h2>
     <div class="ts-layout">
       <div class="form-card">
@@ -152,25 +158,19 @@
     </div>
   </section>
 
-  <footer>
-    <div>© 2026 NGN Sim Racers Club — All rights reserved</div>
-  </footer>
+  <footer><div>© 2026 NGN Sim Racers Club — All rights reserved</div></footer>
 </div>
 
 <div id="toast"></div>
 
-<!-- ADMIN LOGIN MODAL -->
-<div id="adminModal" class="modal-overlay">
-  <div class="modal">
-    <h3>Admin Login</h3>
-    <div class="field">
-      <label>Password</label>
-      <input type="password" id="adminPassInput" placeholder="Enter admin password" autocomplete="current-password">
-    </div>
-    <div class="admin-error" id="adminPassError">Incorrect password. Try again.</div>
-    <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeAdminModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="verifyAdmin()">Unlock</button>
+<!-- USER MENU MODAL -->
+<div id="userMenuModal" class="modal-overlay">
+  <div class="modal" style="max-width:360px">
+    <h3 id="userMenuName">Account</h3>
+    <p class="muted sm" id="userMenuRole" style="margin-bottom:20px"></p>
+    <div class="modal-foot" style="flex-direction:column;gap:8px;align-items:stretch">
+      <button class="btn btn-ghost full" onclick="closeModal('userMenuModal');window.location='index.html'">← Back to Hub</button>
+      <button class="btn btn-danger full" onclick="doLogout()">Log Out</button>
     </div>
   </div>
 </div>
@@ -184,7 +184,7 @@
     <div class="field"><label>Description</label><textarea id="evtDesc" placeholder="Short description…"></textarea></div>
     <div class="field"><label>Start Date</label><input type="date" id="evtDate"></div>
     <div class="field">
-      <label>Expiry Date <span class="muted">(auto-closes event on this date)</span></label>
+      <label>Expiry Date <span class="muted">(auto-closes on this date)</span></label>
       <input type="date" id="evtExpiry">
     </div>
     <div class="field"><label>Status</label>
@@ -201,12 +201,13 @@
       </label>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-ghost" onclick="closeEventModal()">Cancel</button>
+      <button class="btn btn-ghost" onclick="closeModal('eventModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveEvent()">Save Event</button>
     </div>
   </div>
 </div>
 
+<script src="./auth.js"></script>
 <script src="./app.js"></script>
 </body>
 </html>

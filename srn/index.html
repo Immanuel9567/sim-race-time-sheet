@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>NGN Sim Racers Club</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#e8f020">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <div class="logo">V8</div>
+      <div>
+        <div class="brand-name">NGN Sim Racers Club</div>
+        <div class="brand-sub">Leaderboards &amp; Events</div>
+      </div>
+    </div>
+    <nav>
+      <button id="notifBtn"   class="btn btn-ghost btn-sm">🔔</button>
+      <button id="installBtn" class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
+      <button id="authBtn"    class="btn btn-ghost btn-sm">Log In</button>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="grid-template-columns:1fr;border-top:none;padding-top:52px">
+    <div>
+      <div class="hero-tag">&#9679; Nigeria Sim Racers Club</div>
+      <h1>Race. Compete. <span>Dominate.</span></h1>
+      <p class="hero-sub">The home for Nigerian sim racers. Join a game, submit times, and climb the leaderboard. Choose your platform below.</p>
+      <div class="stats-row" id="globalStats">
+        <div class="stat-item"><strong id="gStatRacers">0</strong><span>Racers</span></div>
+        <div class="stat-item"><strong id="gStatEvents">0</strong><span>Events</span></div>
+        <div class="stat-item"><strong id="gStatTimes">0</strong><span>Submissions</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USER WELCOME / PENDING NOTICE -->
+  <div id="userWelcome" style="display:none" class="welcome-bar"></div>
+
+  <!-- GAMES GRID -->
+  <section id="games">
+    <h2>Choose Your Game</h2>
+    <div class="games-grid" id="gamesGrid"></div>
+  </section>
+
+  <!-- SUPERUSER PANEL -->
+  <div id="suPanel" style="display:none">
+    <section id="suUsers" style="padding-top:32px;border-top:1px solid var(--border)">
+      <div class="section-head">
+        <h2 style="margin:0">User Management</h2>
+        <span class="badge badge-live">Superuser</span>
+      </div>
+      <div id="userList" class="user-list"></div>
+    </section>
+    <section id="suPending" style="padding-top:32px;border-top:1px solid var(--border)">
+      <h2>Pending Join Requests</h2>
+      <div id="pendingList"></div>
+    </section>
+  </div>
+
+  <footer><div>© 2026 NGN Sim Racers Club — All rights reserved</div></footer>
+</div>
+
+<div id="toast"></div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="modal-overlay">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-tabs">
+      <button class="tab-btn active" id="tabLogin"    onclick="switchTab('login')">Log In</button>
+      <button class="tab-btn"        id="tabRegister" onclick="switchTab('register')">Sign Up</button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="formLogin">
+      <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="loginUser" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password"></div>
+      <div class="auth-error" id="loginError"></div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="doLogin()">Log In</button>
+      </div>
+    </div>
+
+    <!-- REGISTER -->
+    <div id="formRegister" style="display:none">
+      <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="regUser" autocomplete="username"></div>
+      <div class="field"><label>Password</label><input type="password" id="regPass" autocomplete="new-password"></div>
+      <div class="field"><label>Confirm Password</label><input type="password" id="regPass2" autocomplete="new-password"></div>
+      <div class="auth-error" id="regError"></div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="doRegister()">Create Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./auth.js"></script>
+<script src="./hub.js"></script>
+</body>
+</html>
