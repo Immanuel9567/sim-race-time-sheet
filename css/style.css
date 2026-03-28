@@ -195,3 +195,31 @@ footer{border-top:1px solid var(--border);padding:24px 0;font-size:12px;color:va
   h1{font-size:30px}
   h2{font-size:22px}
 }
+
+/* ── MEMBERS GRID ────────────────────────────────────────────── */
+.members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+
+.member-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:border-color .2s}
+.member-card.is-online{border-color:rgba(232,240,32,.3)}
+
+.member-card-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.member-name{font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.member-seen{font-size:11px;color:var(--muted)}
+.member-games{display:flex;flex-wrap:wrap;gap:6px}
+.member-role{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:rgba(100,100,120,.15);color:var(--muted2);white-space:nowrap;flex-shrink:0}
+.member-role.su{background:rgba(232,240,32,.12);color:var(--accent)}
+.member-role.admin{background:rgba(255,60,60,.12);color:var(--accent2)}
+
+.game-chip{font-size:18px;line-height:1;cursor:default}
+
+/* ── PRESENCE DOT ────────────────────────────────────────────── */
+.presence-wrap{position:relative;flex-shrink:0}
+.presence-dot{position:absolute;bottom:0;right:0;width:10px;height:10px;border-radius:50%;border:2px solid var(--surface)}
+.presence-dot.online{background:#22c55e}
+.presence-dot.offline{background:var(--muted)}
+
+/* ── SUPERUSER USER BLOCK ────────────────────────────────────── */
+.su-user-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:10px}
+.su-user-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.su-game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.su-game-cell{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px}

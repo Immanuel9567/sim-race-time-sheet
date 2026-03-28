@@ -23,6 +23,8 @@
       </div>
     </div>
     <nav>
+      <a href="#games">Games</a>
+      <a href="#members">Members</a>
       <button id="notifBtn"   class="btn btn-ghost btn-sm">🔔</button>
       <button id="installBtn" class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
       <button id="authBtn"    class="btn btn-ghost btn-sm">Log In</button>
@@ -37,37 +39,47 @@
     <div>
       <div class="hero-tag">&#9679; Nigeria Sim Racers Club</div>
       <h1>Race. Compete. <span>Dominate.</span></h1>
-      <p class="hero-sub">The home for Nigerian sim racers. Join a game, submit times, and climb the leaderboard. Choose your platform below.</p>
+      <p class="hero-sub">The home for Nigerian sim racers. Join a game, submit times, and climb the leaderboard.</p>
       <div class="stats-row" id="globalStats">
-        <div class="stat-item"><strong id="gStatRacers">0</strong><span>Racers</span></div>
+        <div class="stat-item"><strong id="gStatRacers">0</strong><span>Members</span></div>
         <div class="stat-item"><strong id="gStatEvents">0</strong><span>Events</span></div>
         <div class="stat-item"><strong id="gStatTimes">0</strong><span>Submissions</span></div>
       </div>
     </div>
   </section>
 
-  <!-- USER WELCOME / PENDING NOTICE -->
+  <!-- WELCOME BAR -->
   <div id="userWelcome" style="display:none" class="welcome-bar"></div>
 
-  <!-- GAMES GRID -->
+  <!-- GAMES -->
   <section id="games">
     <h2>Choose Your Game</h2>
     <div class="games-grid" id="gamesGrid"></div>
   </section>
 
+  <!-- MEMBERS (public) -->
+  <section id="members">
+    <h2>Members</h2>
+    <div class="members-grid" id="membersGrid"></div>
+  </section>
+
   <!-- SUPERUSER PANEL -->
   <div id="suPanel" style="display:none">
-    <section id="suUsers" style="padding-top:32px;border-top:1px solid var(--border)">
+
+    <section style="padding-top:32px;border-top:1px solid var(--border)">
       <div class="section-head">
-        <h2 style="margin:0">User Management</h2>
-        <span class="badge badge-live">Superuser</span>
+        <h2 style="margin:0">⚡ User Management</h2>
+        <span class="badge badge-live">Superuser Only</span>
       </div>
-      <div id="userList" class="user-list"></div>
+      <p class="muted sm" style="margin-bottom:20px">Promote members to game admins or remove their admin roles. Admins can approve members and create events for their assigned game.</p>
+      <div id="userList"></div>
     </section>
-    <section id="suPending" style="padding-top:32px;border-top:1px solid var(--border)">
+
+    <section style="padding-top:32px;border-top:1px solid var(--border)">
       <h2>Pending Join Requests</h2>
       <div id="pendingList"></div>
     </section>
+
   </div>
 
   <footer><div>© 2026 NGN Sim Racers Club — All rights reserved</div></footer>
@@ -82,8 +94,6 @@
       <button class="tab-btn active" id="tabLogin"    onclick="switchTab('login')">Log In</button>
       <button class="tab-btn"        id="tabRegister" onclick="switchTab('register')">Sign Up</button>
     </div>
-
-    <!-- LOGIN -->
     <div id="formLogin">
       <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="loginUser" autocomplete="username"></div>
       <div class="field"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password"></div>
@@ -93,8 +103,6 @@
         <button class="btn btn-primary" onclick="doLogin()">Log In</button>
       </div>
     </div>
-
-    <!-- REGISTER -->
     <div id="formRegister" style="display:none">
       <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="regUser" autocomplete="username"></div>
       <div class="field"><label>Password</label><input type="password" id="regPass" autocomplete="new-password"></div>
