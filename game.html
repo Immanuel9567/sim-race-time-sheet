@@ -13,6 +13,13 @@
 </head>
 <body>
 
+<!-- NOTIF HINT -->
+<div id="notifHintGame" style="display:none" class="notif-hint-bar">
+  🔔 Enable notifications so you don't miss new times!
+  <button id="notifBtn" class="btn btn-primary btn-sm">Enable</button>
+  <button onclick="document.getElementById('notifHintGame').style.display='none'" class="notif-hint-close">✕</button>
+</div>
+
 <header>
   <div class="wrap nav-inner">
     <div class="brand">
@@ -26,7 +33,10 @@
     <nav>
       <a href="#events">Events</a>
       <a href="#leaderboard">Leaderboard</a>
-      <button id="notifBtn"    class="btn btn-ghost btn-sm">🔔</button>
+      <div class="notif-wrap">
+        <button id="bellBtnGame" class="btn btn-ghost btn-sm">🔔</button>
+        <span id="notifBadgeGame" class="notif-badge" style="display:none">0</span>
+      </div>
       <button id="installBtn"  class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
       <button id="userMenuBtn" class="btn btn-ghost btn-sm">Account</button>
     </nav>
@@ -34,16 +44,12 @@
 </header>
 
 <div class="wrap">
-
-  <!-- HERO -->
   <section class="hero">
     <div>
       <div class="hero-tag" id="heroTag">&#9679; Open Events Active</div>
       <h1 id="heroTitle">Game<br><span>Leaderboard</span></h1>
-      <p class="hero-sub" id="heroSub">Track lap times, climb the leaderboard and compete with Nigerian sim racers.</p>
-      <div class="hero-actions" id="heroActions">
-        <a href="#events" class="btn btn-primary">View Events</a>
-      </div>
+      <p class="hero-sub">Track lap times, climb the leaderboard and compete with Nigerian sim racers.</p>
+      <div class="hero-actions"><a href="#events" class="btn btn-primary">View Events</a></div>
       <div class="stats-row">
         <div class="stat-item"><strong id="statSubmissions">0</strong><span>Submissions</span></div>
         <div class="stat-item"><strong id="statEvents">0</strong><span>Events</span></div>
@@ -62,16 +68,13 @@
     </div>
   </section>
 
-  <!-- MEMBERSHIP BAR -->
   <div id="memberBar" style="display:none" class="member-bar"></div>
 
-  <!-- ADMIN PANEL -->
   <div id="adminPanel" style="display:none" class="admin-panel">
     <div class="admin-header">
       <h3>⚡ Game Admin Panel</h3>
       <span id="adminRole" class="badge badge-live"></span>
     </div>
-    <p class="muted sm" style="margin-bottom:16px">Manage events and approve members for this game.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="openCreateEventModal()">＋ Create Event</button>
       <button class="btn btn-ghost"   onclick="showPendingPanel()">👥 Pending Members</button>
@@ -79,13 +82,11 @@
     <div id="pendingMembers" style="display:none;margin-top:16px"></div>
   </div>
 
-  <!-- EVENTS -->
   <section id="events">
     <h2>Events</h2>
     <div class="card-grid" id="eventsGrid"></div>
   </section>
 
-  <!-- LEADERBOARD -->
   <section id="leaderboard">
     <div class="lb-wrap">
       <div>
@@ -94,15 +95,13 @@
           <select id="lbFilter" class="filter-sel"><option value="all">All Events</option></select>
         </div>
         <div class="lb-card">
-          <table><tbody id="leaderboardBody">
-            <tr><td colspan="4" class="empty-state">No times yet — be first!</td></tr>
-          </tbody></table>
+          <table><tbody id="leaderboardBody"><tr><td colspan="4" class="empty-state">No times yet — be first!</td></tr></tbody></table>
         </div>
       </div>
       <aside class="sidebar">
         <div class="steps-card">
           <h3 style="margin-bottom:4px">How It Works</h3>
-          <div class="step"><div class="step-num">1</div><div><h5>Join the game</h5><p>Request membership — approved by admins.</p></div></div>
+          <div class="step"><div class="step-num">1</div><div><h5>Join the game</h5><p>Request membership.</p></div></div>
           <div class="step"><div class="step-num">2</div><div><h5>Submit your time</h5><p>MM:SS.mmm — best lap counts.</p></div></div>
           <div class="step"><div class="step-num">3</div><div><h5>Climb the board</h5><p>Beat your time to move up.</p></div></div>
         </div>
@@ -114,7 +113,6 @@
     </div>
   </section>
 
-  <!-- TIMESHEET (only visible to approved members) -->
   <section id="timesheet" style="display:none">
     <h2>Submit Your Time</h2>
     <div class="ts-layout">
@@ -122,7 +120,7 @@
         <h3>New Submission</h3>
         <div class="field" id="field-driver">
           <label>Driver Name</label>
-          <input type="text" id="inputDriver" placeholder="e.g. Immanuel" maxlength="30" autocomplete="off">
+          <input type="text" id="inputDriver" placeholder="Leave blank to use your username" maxlength="30" autocomplete="off">
           <div class="error-msg">Driver name is required.</div>
         </div>
         <div class="field" id="field-lap">
@@ -130,13 +128,14 @@
           <input type="text" id="inputLap" placeholder="MM:SS.mmm — e.g. 01:32.445" maxlength="10" autocomplete="off">
           <div class="error-msg">Enter a valid time (MM:SS.mmm).</div>
         </div>
-        <div class="field">
-          <label>Event</label>
-          <select id="inputEvent"></select>
-        </div>
-        <div class="field">
-          <label>Team (optional)</label>
-          <input type="text" id="inputTeam" placeholder="Team name" maxlength="30">
+        <div class="field"><label>Event</label><select id="inputEvent"></select></div>
+        <div class="field"><label>Team (optional)</label><input type="text" id="inputTeam" placeholder="Team name" maxlength="30"></div>
+        <!-- PHOTO UPLOAD -->
+        <div class="field" id="photoWrap">
+          <label id="photoLabel">📷 Attach photo (optional)</label>
+          <input type="file" id="photoInput" accept="image/*" style="display:none">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="document.getElementById('photoInput').click()">Choose Photo</button>
+          <img id="photoPreview" style="display:none;width:100%;max-height:160px;object-fit:cover;border-radius:6px;margin-top:8px">
         </div>
         <button class="btn btn-primary full" onclick="submitTime()">&#9654;&nbsp;Submit Time</button>
       </div>
@@ -146,13 +145,8 @@
           <select id="tsFilter" class="filter-sel"><option value="all">All Events</option></select>
         </div>
         <table>
-          <thead><tr>
-            <th>#</th><th>Driver</th><th>Lap Time</th><th>Event</th><th>Team</th>
-            <th class="adminOnly" style="display:none"></th>
-          </tr></thead>
-          <tbody id="timesheetBody">
-            <tr><td colspan="6" class="empty-state">No times yet.</td></tr>
-          </tbody>
+          <thead><tr><th>#</th><th>Driver</th><th>Lap Time</th><th>Event</th><th>Team</th><th class="adminOnly" style="display:none"></th></tr></thead>
+          <tbody id="timesheetBody"><tr><td colspan="6" class="empty-state">No times yet.</td></tr></tbody>
         </table>
       </div>
     </div>
@@ -163,7 +157,7 @@
 
 <div id="toast"></div>
 
-<!-- USER MENU MODAL -->
+<!-- USER MENU -->
 <div id="userMenuModal" class="modal-overlay">
   <div class="modal" style="max-width:360px">
     <h3 id="userMenuName">Account</h3>
@@ -175,7 +169,7 @@
   </div>
 </div>
 
-<!-- CREATE / EDIT EVENT MODAL -->
+<!-- EVENT MODAL -->
 <div id="eventModal" class="modal-overlay">
   <div class="modal" style="max-width:500px">
     <h3 id="eventModalTitle">Create Event</h3>
@@ -188,10 +182,13 @@
       <input type="date" id="evtExpiry">
     </div>
     <div class="field"><label>Status</label>
-      <select id="evtStatus">
-        <option value="open">Open</option>
-        <option value="live">Live</option>
-        <option value="closed">Closed</option>
+      <select id="evtStatus"><option value="open">Open</option><option value="live">Live</option><option value="closed">Closed</option></select>
+    </div>
+    <div class="field"><label>Photo Submission</label>
+      <select id="evtPhotoReq">
+        <option value="none">Not required</option>
+        <option value="optional">Optional</option>
+        <option value="compulsory">Compulsory</option>
       </select>
     </div>
     <div class="field">
@@ -203,6 +200,28 @@
     <div class="modal-foot">
       <button class="btn btn-ghost" onclick="closeModal('eventModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveEvent()">Save Event</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF PANEL MODAL (game page) -->
+<div id="notifPanelModal" class="modal-overlay">
+  <div class="modal" style="max-width:420px;max-height:80vh;overflow-y:auto">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <h3>Notifications</h3>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('notifPanelModal')">✕</button>
+    </div>
+    <div id="notifListGame" class="notif-list"></div>
+  </div>
+</div>
+
+<!-- PHOTO VIEW MODAL -->
+<div id="photoViewModal" class="modal-overlay">
+  <div class="modal" style="max-width:600px;padding:16px">
+    <img id="photoViewImg" style="width:100%;border-radius:8px;max-height:70vh;object-fit:contain">
+    <div id="photoViewCaption" style="text-align:center;margin-top:12px;color:var(--muted2);font-size:13px"></div>
+    <div class="modal-foot" style="justify-content:center;margin-top:12px">
+      <button class="btn btn-ghost" onclick="closeModal('photoViewModal')">Close</button>
     </div>
   </div>
 </div>

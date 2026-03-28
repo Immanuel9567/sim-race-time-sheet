@@ -13,6 +13,13 @@
 </head>
 <body>
 
+<!-- NOTIFICATION HINT BAR -->
+<div id="notifHint" style="display:none" class="notif-hint-bar">
+  🔔 Enable notifications to get alerts when someone posts a new time!
+  <button onclick="Notification.requestPermission().then(r=>{if(r==='granted'){document.getElementById('notifHint').style.display='none';toast('🔔 Notifications enabled!')}})" class="btn btn-primary btn-sm">Enable</button>
+  <button onclick="document.getElementById('notifHint').style.display='none'" class="notif-hint-close">✕</button>
+</div>
+
 <header>
   <div class="wrap nav-inner">
     <div class="brand">
@@ -25,7 +32,10 @@
     <nav>
       <a href="#games">Games</a>
       <a href="#members">Members</a>
-      <button id="notifBtn"   class="btn btn-ghost btn-sm">🔔</button>
+      <div class="notif-wrap">
+        <button id="bellBtn" class="btn btn-ghost btn-sm" title="Notifications">🔔</button>
+        <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+      </div>
       <button id="installBtn" class="btn btn-ghost btn-sm" style="display:none">📲 Install</button>
       <button id="authBtn"    class="btn btn-ghost btn-sm">Log In</button>
     </nav>
@@ -33,14 +43,12 @@
 </header>
 
 <div class="wrap">
-
-  <!-- HERO -->
   <section class="hero" style="grid-template-columns:1fr;border-top:none;padding-top:52px">
     <div>
       <div class="hero-tag">&#9679; Nigeria Sim Racers Club</div>
       <h1>Race. Compete. <span>Dominate.</span></h1>
       <p class="hero-sub">The home for Nigerian sim racers. Join a game, submit times, and climb the leaderboard.</p>
-      <div class="stats-row" id="globalStats">
+      <div class="stats-row">
         <div class="stat-item"><strong id="gStatRacers">0</strong><span>Members</span></div>
         <div class="stat-item"><strong id="gStatEvents">0</strong><span>Events</span></div>
         <div class="stat-item"><strong id="gStatTimes">0</strong><span>Submissions</span></div>
@@ -48,44 +56,67 @@
     </div>
   </section>
 
-  <!-- WELCOME BAR -->
   <div id="userWelcome" style="display:none" class="welcome-bar"></div>
 
-  <!-- GAMES -->
   <section id="games">
     <h2>Choose Your Game</h2>
     <div class="games-grid" id="gamesGrid"></div>
   </section>
 
-  <!-- MEMBERS (public) -->
-  <section id="members">
-    <h2>Members</h2>
-    <div class="members-grid" id="membersGrid"></div>
+  <!-- MEMBERS PANEL -->
+  <section id="members" style="padding-bottom:0">
+    <button class="panel-toggle" onclick="togglePanel('membersBody','membersChevron')">
+      <span>Members</span>
+      <span id="membersChevron" class="chevron">▼</span>
+    </button>
+    <div id="membersBody" class="panel-body">
+      <div class="members-grid" id="membersGrid"></div>
+    </div>
   </section>
 
   <!-- SUPERUSER PANEL -->
   <div id="suPanel" style="display:none">
-
-    <section style="padding-top:32px;border-top:1px solid var(--border)">
-      <div class="section-head">
-        <h2 style="margin:0">⚡ User Management</h2>
-        <span class="badge badge-live">Superuser Only</span>
+    <section style="border-top:1px solid var(--border);padding-bottom:0">
+      <button class="panel-toggle su-toggle" onclick="togglePanel('suUsersBody','suUsersChevron')">
+        <span>⚡ User Management</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="badge badge-live" style="font-size:10px">Superuser</span>
+          <span id="suUsersChevron" class="chevron">▼</span>
+        </div>
+      </button>
+      <div id="suUsersBody" class="panel-body" style="display:none">
+        <p class="muted sm" style="margin-bottom:20px">Promote members to game admins or remove their roles.</p>
+        <div id="userList"></div>
       </div>
-      <p class="muted sm" style="margin-bottom:20px">Promote members to game admins or remove their admin roles. Admins can approve members and create events for their assigned game.</p>
-      <div id="userList"></div>
     </section>
-
-    <section style="padding-top:32px;border-top:1px solid var(--border)">
-      <h2>Pending Join Requests</h2>
-      <div id="pendingList"></div>
+    <section style="border-top:1px solid var(--border);padding-bottom:0">
+      <button class="panel-toggle su-toggle" onclick="togglePanel('suPendingBody','suPendingChevron')">
+        <span>Pending Join Requests</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span id="pendingBadge" class="badge badge-live" style="display:none;font-size:10px"></span>
+          <span id="suPendingChevron" class="chevron">▼</span>
+        </div>
+      </button>
+      <div id="suPendingBody" class="panel-body" style="display:none">
+        <div id="pendingList"></div>
+      </div>
     </section>
-
   </div>
 
-  <footer><div>© 2026 NGN Sim Racers Club — All rights reserved</div></footer>
+  <footer style="margin-top:40px"><div>© 2026 NGN Sim Racers Club — All rights reserved</div></footer>
 </div>
 
 <div id="toast"></div>
+
+<!-- NOTIFICATIONS PANEL -->
+<div id="notifPanel" class="notif-drawer">
+  <div class="notif-drawer-head">
+    <h3>Notifications</h3>
+    <button onclick="closeNotifPanel()" class="notif-close-btn">✕</button>
+  </div>
+  <div id="notifList" class="notif-list"></div>
+</div>
+<div id="notifOverlay" class="notif-overlay" onclick="closeNotifPanel()"></div>
 
 <!-- AUTH MODAL -->
 <div id="authModal" class="modal-overlay">
@@ -98,25 +129,66 @@
       <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="loginUser" autocomplete="username"></div>
       <div class="field"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password"></div>
       <div class="auth-error" id="loginError"></div>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="doLogin()">Log In</button>
-      </div>
+      <div class="modal-foot"><button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button><button class="btn btn-primary" onclick="doLogin()">Log In</button></div>
     </div>
     <div id="formRegister" style="display:none">
       <div class="field" style="margin-top:20px"><label>Username</label><input type="text" id="regUser" autocomplete="username"></div>
       <div class="field"><label>Password</label><input type="password" id="regPass" autocomplete="new-password"></div>
       <div class="field"><label>Confirm Password</label><input type="password" id="regPass2" autocomplete="new-password"></div>
       <div class="auth-error" id="regError"></div>
-      <div class="modal-foot">
-        <button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button>
-        <button class="btn btn-primary" onclick="doRegister()">Create Account</button>
-      </div>
+      <div class="modal-foot"><button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button><button class="btn btn-primary" onclick="doRegister()">Create Account</button></div>
     </div>
   </div>
 </div>
 
+<!-- WELCOME SCREEN -->
+<div id="welcomeModal" class="modal-overlay">
+  <div class="modal" style="max-width:520px">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:48px;margin-bottom:10px">🏎️</div>
+      <h3>Welcome to NGN Sim Racers!</h3>
+      <p class="muted sm" style="margin-top:6px">Which games do you play? Select all that apply — we'll send join requests for you.</p>
+    </div>
+    <div class="welcome-games-grid">
+      <!-- populated by auth.js GAMES -->
+    </div>
+    <div class="modal-foot" style="margin-top:24px;justify-content:center">
+      <button class="btn btn-primary" onclick="finishWelcome()">Get Started →</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div id="profileModal" class="modal-overlay">
+  <div class="modal" style="max-width:420px">
+    <h3>Edit Profile</h3>
+    <div class="field"><label>Display Name</label><input type="text" id="profDisplayName" placeholder="How you appear on leaderboards" maxlength="30"></div>
+    <div class="field"><label>Bio</label><textarea id="profBio" placeholder="Tell the club about yourself…" maxlength="160"></textarea></div>
+    <div class="field">
+      <label>Avatar Colour</label>
+      <div style="display:flex;align-items:center;gap:12px;margin-top:4px">
+        <input type="color" id="profColor" style="width:48px;height:36px;border:none;background:none;cursor:pointer;border-radius:6px">
+        <span class="muted sm">Used as your avatar background</span>
+      </div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" onclick="document.getElementById('profileModal').classList.remove('open')">Cancel</button><button class="btn btn-primary" onclick="saveProfile()">Save</button></div>
+  </div>
+</div>
+
 <script src="./auth.js"></script>
+<script>
+// Populate welcome game checkboxes from GAMES list
+(function(){
+  const grid=document.querySelector('.welcome-games-grid');
+  if(!grid) return;
+  grid.innerHTML=GAMES.map(g=>`
+    <label class="welcome-game-opt">
+      <input type="checkbox" id="wg_${g.id}">
+      <span class="welcome-game-icon">${g.icon}</span>
+      <span>${g.name}</span>
+    </label>`).join('');
+})();
+</script>
 <script src="./hub.js"></script>
 </body>
 </html>
