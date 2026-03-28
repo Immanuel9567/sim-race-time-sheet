@@ -1,5 +1,5 @@
 const CACHE = 'srn-v2';
-const PRECACHE = ['./', './index.html', './game.html', './auth.js', './hub.js', './app.js', './css/style.css', './manifest.json'];
+const PRECACHE = ['./index.html', './game.html', './auth.js', './hub.js', './app.js', './css/style.css', './manifest.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(PRECACHE)).then(() => self.skipWaiting()));
